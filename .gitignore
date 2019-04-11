@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-node_modules
-.idea
-# Environment Variables should NEVER be published
-.env
-=======
 # Logs
 logs
 *.log
@@ -68,4 +62,3 @@ typings/
 
 # .DS_Store Mac OS file
 .DS_Store
->>>>>>> master
