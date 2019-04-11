@@ -1,2 +1,4 @@
 node_modules
 .idea
+# Environment Variables should NEVER be published
+.env
