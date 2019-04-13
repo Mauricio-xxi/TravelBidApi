@@ -2,10 +2,12 @@
 const express = require('express');
 const router = express.Router();
 
-const Offer = require('../models/offers');
+const Offer = require('../models/offer');
+console.log('we are in offer')
 
 router.post('/offer', (req, res, next) => {
-  const { from, until, location, budget } = req.body;
+  console.log(req.body)
+  const { userID, from, until, location, budget } = req.body;
   const newOffer = new Offer({
     userID,
     // image,
@@ -22,3 +24,5 @@ router.post('/offer', (req, res, next) => {
     })
     .catch(next);
 });
+
+module.exports = router;
