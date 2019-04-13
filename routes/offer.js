@@ -8,7 +8,7 @@ const {
 
 const Offer = require('../models/offer');
 
-router.post('/', isLoggedIn(), (req, res, next) => {
+router.post('/', (req, res, next) => {
   const { from, until, location, budget } = req.body;
   const userID  = req.session.currentUser._id;
   const newOffer = new Offer({
@@ -23,9 +23,62 @@ router.post('/', isLoggedIn(), (req, res, next) => {
   newOffer.save()
     .then((offer) => {
       res.status(200);
-      res.json({ offer });
+      res.json({offer});
     })
     .catch(next);
+});
+
+router.get('/', (req, res, next) => {
+  const id  = req.session.currentUser._id;
+  Offer.find({ userID: id })
+    .then((offers) => {
+      console.log(offers);
+      res.status(200);
+      res.json(offers);
+    })
+    .catch(next);
+});
+
+router.get('/:id', (req, res, next) => {
+  const offerID = req.params.id;
+
+  Offer.findById(offerID)
+    .then((offer) => {
+      console.log(offer);
+      res.status(200);
+      res.json(offer);
+    })
+    .catch(next);
+
+});
+
+router.put('/:id', isLoggedIn(), (req, res, next) => {
+  const { from, until, budget } = req.body;
+  const offerID = req.params.id;
+  const userID = req.session.currentUser._id;
+  Offer.findByIdAndUpdate(offerID, {
+    userID,
+    from,
+    until,
+    budget,
+  }, { new: true })
+    .then((offer) => {
+      res.json({offer});
+    })
+    .catch((error) => {
+      next(error);
+    });
+});
+
+router.delete('/:id', isLoggedIn(), (req, res, next) => {
+  const offerID = req.params.id;
+  Offer.findByIdAndDelete(offerID)
+    .then(() => {
+      res.json({ message: `Offer with ${offerID} is removed successfully.` });
+    })
+    .catch((error) => {
+      next(error);
+    });
 });
 
 module.exports = router;
