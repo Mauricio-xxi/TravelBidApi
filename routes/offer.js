@@ -1,13 +1,16 @@
 
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
+const {
+  isLoggedIn,
+} = require('../helpers/middlewares');
 
 const Offer = require('../models/offer');
-console.log('we are in offer')
 
-router.post('/offer', (req, res, next) => {
-  console.log(req.body)
-  const { userID, from, until, location, budget } = req.body;
+router.post('/', isLoggedIn(), (req, res, next) => {
+  const { from, until, location, budget } = req.body;
+  const userID  = req.session.currentUser._id;
   const newOffer = new Offer({
     userID,
     // image,
