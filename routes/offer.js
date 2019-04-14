@@ -24,6 +24,7 @@ router.post('/', (req, res, next) => {
     .then((offer) => {
       res.status(200);
       res.json({offer});
+      console.log({offer});
     })
     .catch(next);
 });
@@ -32,7 +33,6 @@ router.get('/', (req, res, next) => {
   const id  = req.session.currentUser._id;
   Offer.find({ userID: id })
     .then((offers) => {
-      console.log(offers);
       res.status(200);
       res.json(offers);
     })
