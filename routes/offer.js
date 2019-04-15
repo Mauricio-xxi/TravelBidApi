@@ -31,7 +31,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/', (req, res, next) => {
   const id  = req.session.currentUser._id;
-  Offer.find({ userID: id })
+Offer.find({ userID: id })
     .then((offers) => {
       res.status(200);
       res.json(offers);
@@ -51,6 +51,18 @@ router.get('/:id', (req, res, next) => {
     .catch(next);
 
 });
+
+// router.get('/search', (req, res, next) => {
+//   const {city} = req.params;
+//   console.log(city);
+//   Offer.find({ location: city })
+//     .then((offers) => {
+//       res.status(200);
+//       res.json(offers);
+//     })
+//     .catch(next);
+
+// });
 
 router.put('/:id', isLoggedIn(), (req, res, next) => {
   const { from, until, budget } = req.body;
