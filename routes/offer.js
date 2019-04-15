@@ -55,9 +55,9 @@ router.get('/:id', (req, res, next) => {
 router.put('/:id', isLoggedIn(), (req, res, next) => {
   const { from, until, budget } = req.body;
   const offerID = req.params.id;
-  const userID = req.session.currentUser._id;
+  // const userID = req.session.currentUser._id;
   Offer.findByIdAndUpdate(offerID, {
-    userID,
+    // userID,
     from,
     until,
     budget,
