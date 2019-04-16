@@ -1,3 +1,5 @@
+import User from "../models/user"
+
 export const resolvers = {
   Query :{
     hello: ()=>{
@@ -9,8 +11,8 @@ export const resolvers = {
   },
   Mutation: {
     createUser(_,{input}){
-      console.log(input)
-      return null 
+      const newUser = new User (input )
+      console.log(newUser)
     }
   }
 };
