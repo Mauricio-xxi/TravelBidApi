@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
+const graphqlHttp = require('express-graphql');
+const { buildSchema} = require('graphql')
 require('dotenv').config();
 
 const auth = require('./routes/auth');
@@ -61,9 +63,34 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//creamos los modelos de las queris que vamos a generar, query es la busqueda y mutation el crud, 
+// le decimos que enviamos y que va a devolver, en el caso de rootmutation devuelve el tring que le enviamos
+app.use('/graphql', graphqlHttp({
+  schema: buildSchema(`
+    type RootQuery {
+      event: [String!]!
+    }
 
-app.use('/auth', auth);
-app.use('/offer', offer);
+    type RootMutation{
+      createEvent(name: String):String
+    }
+ 
+  `),
+  //root es el lugar donde ponemos las funciones que definimos antes para que realicen las operaciones (mutaciones)
+  rootValue: {
+    event:() => {
+      return['hola','k','ase','!'];
+    },
+    createEvent: (args)=>{
+      const eventName = args.name;
+      return eventName;
+    }
+  },
+  graphiql:true              
+})
+);
+// app.use('/auth', auth);
+// app.use('/offer', offer);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
