@@ -44,7 +44,6 @@ router.get('/:id', (req, res, next) => {
 
   Offer.findById(offerID)
     .then((offer) => {
-      console.log(offer);
       res.status(200);
       res.json(offer);
     })
@@ -52,17 +51,17 @@ router.get('/:id', (req, res, next) => {
 
 });
 
-// router.get('/search', (req, res, next) => {
-//   const {city} = req.params;
-//   console.log(city);
-//   Offer.find({ location: city })
-//     .then((offers) => {
-//       res.status(200);
-//       res.json(offers);
-//     })
-//     .catch(next);
 
-// });
+// GET SEARCH INPUT
+router.get('/search/:city', (req, res, next) => {
+  const { city } = req.params;
+  Offer.find({ location: city })
+    .then((offers) => {
+      res.status(200);
+      res.json(offers);
+    })
+    .catch(next);
+});
 
 router.put('/:id', isLoggedIn(), (req, res, next) => {
   const { from, until, budget } = req.body;
