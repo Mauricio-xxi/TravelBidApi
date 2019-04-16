@@ -11,6 +11,8 @@ const graphqlHttp = require('express-graphql');
 const { buildSchema} = require('graphql')
 require('dotenv').config();
 
+import schema from "./graphql/schema"
+
 const auth = require('./routes/auth');
 const offer = require('./routes/offer');
 
@@ -66,27 +68,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 //creamos los modelos de las queris que vamos a generar, query es la busqueda y mutation el crud, 
 // le decimos que enviamos y que va a devolver, en el caso de rootmutation devuelve el tring que le enviamos
 app.use('/graphql', graphqlHttp({
-  schema: buildSchema(`
-    type RootQuery {
-      event: [String!]!
-    }
-
-    type RootMutation{
-      createEvent(name: String):String
-    }
- 
-  `),
-  //root es el lugar donde ponemos las funciones que definimos antes para que realicen las operaciones (mutaciones)
-  rootValue: {
-    event:() => {
-      return['hola','k','ase','!'];
-    },
-    createEvent: (args)=>{
-      const eventName = args.name;
-      return eventName;
-    }
-  },
-  graphiql:true              
+  graphiql:true,
+  schema:schema      
 })
 );
 // app.use('/auth', auth);
