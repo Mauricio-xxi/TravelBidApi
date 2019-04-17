@@ -9,7 +9,8 @@ const {
 const Offer = require('../models/offer');
 
 router.post('/', (req, res, next) => {
-  const { from, until, location, budget } = req.body;
+  const { from, until, budget } = req.body;
+  const location = req.body.location.toUpperCase();
   const userID  = req.session.currentUser._id;
   const newOffer = new Offer({
     userID,
