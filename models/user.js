@@ -9,6 +9,7 @@ const userSchema = new Schema({
   age: { type: Number, default: '' },
   gender: { type: String, default: '' },
   description: { type: String, default: '' },
+  city: { type: String, default: '' },
   userImage: { type: String },
 }, {
     timestamps: {
