@@ -18,10 +18,10 @@ const bidSchema = new Schema({
     type: ObjectId,
     ref: 'Room',
   },
-  bidValue: {
+  value: {
     type: Number,
   },
-  bidDescription: {
+  description: {
     type: String,
   },
   Status: {
