@@ -6,7 +6,7 @@ const {
   isLoggedIn,
 } = require('../helpers/middlewares');
 
-const Offer = require('../models/offer');
+const Bid = require('../models/bid');
 
 router.post('/', (req, res, next) => {
   console.log(req);
