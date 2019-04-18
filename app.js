@@ -54,7 +54,7 @@ app.use(
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
     },
-  }),
+  })
 );
 
 app.use(logger('dev'));
@@ -65,7 +65,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/auth', auth);
 app.use('/offer', offer);
-app.use('/bid', offer);
+app.use('/bid', bid);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
