@@ -2,14 +2,13 @@ import {makeExecutableSchema} from "graphql-tools"
 import {resolvers} from "./resolvers"
 const typeDefs = `
   type Query {
-    hello: String
     User: User
     Offer(userID: String): Offer
     Bid (id: String): Bid
     Offers(location: String):[Offer]
   },
   type User {
-    email: String!,
+    email: String,
     password: String!,
     username: String!
   }
@@ -35,11 +34,12 @@ const typeDefs = `
 
   type Mutation {
     createUser(input: UserInput): User
+    login(input:UserInput):User
   }
 
   input UserInput{
     username: String!,
-    email: String!,
+    email: String,
     password: String!,
   }
 `;

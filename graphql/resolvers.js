@@ -13,10 +13,6 @@ const {
 
 export const resolvers = {
   Query :{
-    hello: ()=>{
-      console.log(ctx.request.headers.authorization)    
-      return "hola con graphql"
-    },
   User: ()=> {
       return null
     },
@@ -28,7 +24,6 @@ export const resolvers = {
     }
   },
   Offers: async(_,{location},ctx)=> {
-    console.log(ctx)
     if(ctx.session.currentUser){
     return await Offer.find({location})
     } else {
@@ -42,23 +37,39 @@ export const resolvers = {
   },
   Mutation: {
     async createUser(_,{input},ctx){
-      isNotLoggedIn()
-      validationLoggin()
       try {
-        const username = input.username;
+        const {username, password, email} = input;
         const user = await User.findOne({ username }, 'username');
         if (user) {
-          return next(createError(422));
+          return(createError(422));
         } else {
           const salt = bcrypt.genSaltSync(10);
           const hashPass = bcrypt.hashSync(password, salt);
-          const newUser = await User.create({ username, password: hashPass });
+          const newUser = await User.create({ username, password: hashPass, email });
           ctx.session.currentUser = newUser;
-          res.status(200).json(newUser);
+          return newUser;
         }
       } catch (error) {
-        next(error);
+        return (error);
       }
+    },
+    async login(_,{input},ctx){
+      const {username, password} = input;      
+      try {
+        const user = await User.findOne({ username });
+        if (!user) {
+          return(createError(404));
+        } else if (bcrypt.compareSync(password, user.password)) {
+          ctx.session.currentUser = user;
+          console.log(ctx.session.currentUser)
+          return user;
+        } else {
+          return(createError(401));
+        }
+      } catch (error) {
+        return(error);
+      }
+
     }
   }
 };
