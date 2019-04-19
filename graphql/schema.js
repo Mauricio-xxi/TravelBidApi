@@ -4,10 +4,33 @@ const typeDefs = `
   type Query {
     hello: String
     User: User
+    Offer(location: String): Offer
+    Bid (id: String): Bid
+    Offers(location: String):[Offer]
   },
   type User {
     email: String!,
     password: String!,
+    username: String!
+  }
+
+  type Offer {
+    userID: ID,
+    image: String,
+    from: String,
+    until: String,
+    location: String,
+    budget: Float,
+    Status: Int,
+  }
+  type Bid {
+    userID: String,
+    offerID: String,
+    roomID: String,
+    bidValue: Float,
+    bidDescription: String,
+    Status: Int,
+    accomodationImage: String,
   }
 
   type Mutation {
@@ -15,6 +38,7 @@ const typeDefs = `
   }
 
   input UserInput{
+    username: String!,
     email: String!,
     password: String!,
   }
