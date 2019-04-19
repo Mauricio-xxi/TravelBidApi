@@ -46,6 +46,23 @@ router.delete('/:bidID', (req, res, next) => {
     .catch(next);
 });
 
+
+router.put('/:bidID', isLoggedIn(), (req, res, next) => {
+  const { description, value } = req.body;
+  const bidID = req.params.bidID;
+  console.log(bidID);
+  Bid.findByIdAndUpdate(bidID, {
+    description,
+    value,
+  }, { new: true })
+    .then((bid) => {
+      res.json({bid});
+    })
+    .catch((error) => {
+      next(error);
+    });
+});
+
 // router.get('/:id', (req, res, next) => {
 //   const offerID = req.params.id;
 
