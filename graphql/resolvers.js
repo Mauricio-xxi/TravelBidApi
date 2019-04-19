@@ -69,7 +69,10 @@ export const resolvers = {
       } catch (error) {
         return(error);
       }
-
+    },
+    logout(_,{input},ctx){
+      ctx.session.destroy();
+      return status(204).send()
     }
   }
 };
