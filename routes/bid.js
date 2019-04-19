@@ -9,7 +9,6 @@ const {
 const Bid = require('../models/bid');
 
 router.post('/', (req, res, next) => {
-  console.log(req);
   const { description, value, offerID } = req.body;
   const userID  = req.session.currentUser._id;
   const newBid = new Bid({
@@ -23,17 +22,26 @@ router.post('/', (req, res, next) => {
     .then((bid) => {
       res.status(200);
       res.json({bid});
-      console.log({bid});
     })
     .catch(next);
 });
 
 router.get('/:offerID', (req, res, next) => {
-  const offerID  = req.params.offerID;
-  Bid.find({ offerID: offerID })
-    .then((bids) => {
-      res.status(200);
-      res.json(bids);
+  const offerID = req.params.id;
+  Bid.find(offerID)
+      .then((offers) => {
+        res.status(200);
+        res.json(offers);
+      })
+      .catch(next);
+});
+
+router.delete('/:bidID', (req, res, next) => {
+  const bidID  = req.params.bidID;
+  console.log(bidID);
+  Bid.findByIdAndDelete(bidID)
+    .then(() => {
+      res.json({ message: `Bid with ${bidID} was removed successfully.` });
     })
     .catch(next);
 });
@@ -65,7 +73,7 @@ router.get('/:offerID', (req, res, next) => {
 // router.put('/:id', isLoggedIn(), (req, res, next) => {
 //   const { from, until, budget } = req.body;
 //   const offerID = req.params.id;
-//   // const userID = req.session.currentUser._id;
+//   // conbid = req.session.currentUser._id;
 //   Offer.findByIdAndUpdate(offerID, {
 //     // userID,
 //     from,
