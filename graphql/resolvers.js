@@ -2,6 +2,12 @@ import User from "../models/user"
 import Offer from "../models/offer"
 import Bid from "../models/bid"
 
+const {
+  isLoggedIn,
+  isNotLoggedIn,
+  validationLoggin,
+} = require('../helpers/middlewares');
+
 export const resolvers = {
   Query :{
     hello: ()=>{

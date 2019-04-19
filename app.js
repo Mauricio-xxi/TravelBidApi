@@ -67,10 +67,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //creamos los modelos de las queris que vamos a generar, query es la busqueda y mutation el crud, 
 // le decimos que enviamos y que va a devolver, en el caso de rootmutation devuelve el tring que le enviamos
-app.use('/graphql', graphqlHttp({
-  graphiql:true,
-  schema:schema      
-})
+
+app.use(
+  '/graphql',
+  graphqlHttp((request, response, graphQLParams) => ({
+      schema: schema,
+      graphiql:  true ,
+      ctx: { 
+          request: request,
+      }
+  }))
 );
 // app.use('/auth', auth);
 // app.use('/offer', offer);
