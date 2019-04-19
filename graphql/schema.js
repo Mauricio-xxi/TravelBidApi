@@ -4,7 +4,7 @@ const typeDefs = `
   type Query {
     hello: String
     User: User
-    Offer(location: String): Offer
+    Offer(userID: String): Offer
     Bid (id: String): Bid
     Offers(location: String):[Offer]
   },
