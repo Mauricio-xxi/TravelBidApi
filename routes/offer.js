@@ -32,7 +32,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/', (req, res, next) => {
   const id  = req.session.currentUser._id;
-Offer.find({ userID: id })
+  Offer.find({ userID: id })
     .then((offers) => {
       res.status(200);
       res.json(offers);
