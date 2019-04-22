@@ -72,7 +72,7 @@ app.use(
   '/graphql',
   graphqlHttp((request, response, graphQLParams) => ({
       schema: schema,
-      graphiql:  false ,
+      graphiql:  true ,
       ctx: { 
           request: request,
       }

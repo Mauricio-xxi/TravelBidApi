@@ -4,18 +4,18 @@ import Bid from "../models/bid"
 const createError = require('http-errors')
 const bcrypt = require('bcrypt');
 
-
-const {
-  isLoggedIn,
-  isNotLoggedIn,
-  validationLoggin,
-} = require('../helpers/middlewares');
-
 export const resolvers = {
   Query :{
   User: ()=> {
-      return null
+      return true
     },
+  usersession: (_,{userID},ctx)=> {
+    if(ctx.session.currentUser){
+      return ({currentsession:true})
+    } else {
+      return createError(401)
+    }
+  },
   Offer: async(_,{userID},ctx)=> {
     if(ctx.session.currentUser){
       return await Offer.findOne({userID})

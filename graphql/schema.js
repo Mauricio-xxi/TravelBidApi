@@ -2,11 +2,15 @@ import {makeExecutableSchema} from "graphql-tools"
 import {resolvers} from "./resolvers"
 const typeDefs = `
   type Query {
+    usersession: usersession
     User: User
     Offer(userID: String): Offer
     Bid (id: String): Bid
     Offers(location: String):[Offer]
-  },
+  }
+  type usersession {
+    currentsession:Boolean
+  }
   type User {
     email: String,
     password: String!,
@@ -22,6 +26,7 @@ const typeDefs = `
     budget: Float,
     Status: Int,
   }
+
   type Bid {
     userID: String,
     offerID: String,
