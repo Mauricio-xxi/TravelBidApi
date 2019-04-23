@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const { isLoggedIn } = require('../helpers/middlewares');
 
-const Profile = require('../models/user');
+const User = require('../models/user');
 
 router.get('/', (req, res, next) => {
-  const userID  = req.session.currentUser._id;
-  Profile.find({ userID })
+  const _id  = req.session.currentUser._id;
+  User.findById({ _id })
     .then((Profile) => {
       res.status(200);
       res.json(Profile);
@@ -17,8 +17,8 @@ router.get('/', (req, res, next) => {
 
 router.put('/', isLoggedIn(), (req, res, next) => {
   const { email, age, gender, description, city, userImage } = req.body;
-  const userID = req.session.currentUser._id;
-  Profile.findByIdAndUpdate(userID, {
+  const _id = req.session.currentUser._id;
+  User.findByIdAndUpdate(_id, {
     email,
     age,
     gender,

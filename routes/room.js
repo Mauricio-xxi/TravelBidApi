@@ -6,8 +6,9 @@ const { isLoggedIn } = require('../helpers/middlewares');
 const Room = require('../models/room');
 
 router.post('/', (req, res, next) => {
-  const { location, facilities:[...rest]  } = req.body;
+  const { location, facilities  } = req.body;
   const userID  = req.session.currentUser._id;
+  console.log(req.body)
   const newRoom = new Room({
     userID,
     location,
