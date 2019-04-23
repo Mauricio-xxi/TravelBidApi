@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const { isLoggedIn } = require('../helpers/middlewares');
 
-const Profile = require('../models/profile');
+const Profile = require('../models/user');
 
 router.get('/', (req, res, next) => {
   const userID  = req.session.currentUser._id;
