@@ -38,7 +38,6 @@ router.get('/:offerID', (req, res, next) => {
 
 router.delete('/:bidID', (req, res, next) => {
   const bidID  = req.params.bidID;
-  console.log(bidID);
   Bid.findByIdAndDelete(bidID)
     .then(() => {
       res.json({ message: `Bid with ${bidID} was removed successfully.` });
@@ -50,7 +49,6 @@ router.delete('/:bidID', (req, res, next) => {
 router.put('/:bidID', isLoggedIn(), (req, res, next) => {
   const { description, value } = req.body;
   const bidID = req.params.bidID;
-  console.log(bidID);
   Bid.findByIdAndUpdate(bidID, {
     description,
     value,
