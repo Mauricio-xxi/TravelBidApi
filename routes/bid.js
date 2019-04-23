@@ -27,11 +27,11 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/:offerID', (req, res, next) => {
-  const offerID = req.params.id;
-  Bid.find(offerID)
-      .then((offers) => {
+  const { offerID } = req.params;
+  Bid.find({offerID})
+      .then((bids) => {
         res.status(200);
-        res.json(offers);
+        res.json(bids);
       })
       .catch(next);
 });
