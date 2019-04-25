@@ -27,18 +27,27 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/:offerID', (req, res, next) => {
-  const offerID = req.params.id;
+  const { offerID } = req.params;
   Bid.find({offerID})
-      .then((offers) => {
+      .then((bids) => {
         res.status(200);
-        res.json(offers);
+        res.json(bids);
+      })
+      .catch(next);
+});
+
+router.get('/userBids/:userID', (req, res, next) => {
+  const { userID } = req.params;
+  Bid.find({userID})
+      .then((bids) => {
+        res.status(200);
+        res.json(bids);
       })
       .catch(next);
 });
 
 router.delete('/:bidID', (req, res, next) => {
   const bidID  = req.params.bidID;
-  console.log(bidID);
   Bid.findByIdAndDelete(bidID)
     .then(() => {
       res.json({ message: `Bid with ${bidID} was removed successfully.` });
@@ -50,7 +59,6 @@ router.delete('/:bidID', (req, res, next) => {
 router.put('/:bidID', isLoggedIn(), (req, res, next) => {
   const { description, value } = req.body;
   const bidID = req.params.bidID;
-  console.log(bidID);
   Bid.findByIdAndUpdate(bidID, {
     description,
     value,
