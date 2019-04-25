@@ -36,6 +36,16 @@ router.get('/:offerID', (req, res, next) => {
       .catch(next);
 });
 
+router.get('/userBids/:userID', (req, res, next) => {
+  const { userID } = req.params;
+  Bid.find({userID})
+      .then((bids) => {
+        res.status(200);
+        res.json(bids);
+      })
+      .catch(next);
+});
+
 router.delete('/:bidID', (req, res, next) => {
   const bidID  = req.params.bidID;
   Bid.findByIdAndDelete(bidID)
