@@ -56,20 +56,53 @@ router.delete('/:bidID', (req, res, next) => {
 });
 
 
-router.put('/:bidID', isLoggedIn(), (req, res, next) => {
-  const { description, value, Status } = req.body;
+// router.put('/:bidID', isLoggedIn(), (req, res, next) => {
+//   const { description, value, Status } = req.body;
+//   const bidID = req.params.bidID;
+//   Bid.findByIdAndUpdate(bidID, {
+//     description,
+//     value,
+//     Status,
+//   }, { new: true })
+//     .then((bid) => {
+//       res.json({bid});
+//     })
+//     .catch((error) => {
+//       next(error);
+//     });
+// });
+
+// Edit BID
+router.put('/:bidID', isLoggedIn(), async (req, res, next) => {
+  const { description, value, Status, offerID } = req.body;
   const bidID = req.params.bidID;
-  Bid.findByIdAndUpdate(bidID, {
-    description,
-    value,
-    Status,
-  }, { new: true })
-    .then((bid) => {
-      res.json({bid});
-    })
-    .catch((error) => {
-      next(error);
+  try {
+
+    await Bid.findByIdAndUpdate(bidID, {
+      description,
+      value,
+      Status,
+    }, { new: true });
+    
+    
+    if (Status === 1) {
+      await Offer.findByIdAndUpdate(offerID, { Status });
+      const bids = await Bid.find({offerID, Status: 0 || null });
+      await bids.forEach(async (bid) => {
+        await Bid.findByIdAndUpdate(bid.id, { Status: 1 });
+      });
+
+   } else if (Status === 2) {
+    await Offer.findByIdAndUpdate(offerID, { Status: 1 });
+    const bids = await Bid.find({offerID, Status: 0 || null });
+    await bids.forEach(async (bid) => {
+      await Bid.findByIdAndUpdate(bid.id, { Status: 2 });
     });
+   }
+
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
