@@ -43,7 +43,7 @@ router.post(
   isNotLoggedIn(),
   validationLoggin(),
   async (req, res, next) => {
-    const { username, password } = req.body;
+    const { username, password, age, gender, email } = req.body;
     const city = req.body.city.toUpperCase();
     try {
       const user = await User.findOne({ username }, 'username');
@@ -52,7 +52,7 @@ router.post(
       } else {
         const salt = bcrypt.genSaltSync(10);
         const hashPass = bcrypt.hashSync(password, salt);
-        const newUser = await User.create({ username, password: hashPass, city });
+        const newUser = await User.create({ username, password: hashPass, city, age, gender, email });
         req.session.currentUser = newUser;
         console.log(newUser)
         res.status(200).json(newUser);

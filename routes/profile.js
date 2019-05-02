@@ -16,6 +16,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.put('/', isLoggedIn(), (req, res, next) => {
+  console.log(req.body)
   const { email, age, gender, description, city, userImage } = req.body;
   const _id = req.session.currentUser._id;
   User.findByIdAndUpdate(_id, {
