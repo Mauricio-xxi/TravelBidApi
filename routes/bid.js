@@ -7,6 +7,7 @@ const {
 } = require('../helpers/middlewares');
 
 const Bid = require('../models/bid');
+const Offer = require('../models/offer');
 
 router.post('/', (req, res, next) => {
   const { description, value, offerID } = req.body;
@@ -83,22 +84,28 @@ router.put('/:bidID', isLoggedIn(), async (req, res, next) => {
       value,
       Status,
     }, { new: true });
-    
-    
+
     if (Status === 1) {
       await Offer.findByIdAndUpdate(offerID, { Status });
-      const bids = await Bid.find({offerID, Status: 0 || null });
-      await bids.forEach(async (bid) => {
-        await Bid.findByIdAndUpdate(bid.id, { Status: 1 });
+      const bids = await Bid.find({offerID, Status: 0});
+      console.log(bids)
+      bids.forEach((bid) => {
+         Bid.findByIdAndUpdate(bid.id, { Status: 2 });
+         console.log(bid.id);
       });
+    }
+    
+    
+      
 
-   } else if (Status === 2) {
-    await Offer.findByIdAndUpdate(offerID, { Status: 1 });
-    const bids = await Bid.find({offerID, Status: 0 || null });
-    await bids.forEach(async (bid) => {
-      await Bid.findByIdAndUpdate(bid.id, { Status: 2 });
-    });
-   }
+   
+  //  else if (Status === 2) {
+  //   await Offer.findByIdAndUpdate(offerID, { Status: 1 });
+  //   const bids = await Bid.find({offerID, Status: 0 || null });
+  //   await bids.forEach(async (bid) => {
+  //     await Bid.findByIdAndUpdate(bid.id, { Status: 2 });
+  //   });
+  //  }
 
   } catch (error) {
     next(error);

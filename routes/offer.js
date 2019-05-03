@@ -56,10 +56,12 @@ router.get('/:id', (req, res, next) => {
 // GET SEARCH INPUT
 router.get('/search/:city', (req, res, next) => {
   const { city } = req.params;
+  console.log(city)
   Offer.find({ location: city })
     .then((offers) => {
       res.status(200);
       res.json(offers);
+      console.log(offers);
     })
     .catch(next);
 });
