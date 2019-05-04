@@ -10,7 +10,7 @@ const userSchema = new Schema({
   gender: { type: String, default: '' },
   description: { type: String, default: '' },
   city: { type: String, default: '' },
-  userImage: { type: String },
+  userImage: { type: String, default:"http://www.oda-alc.org/wp-content/uploads/jpg/generic-profile-avatar_352864.jpg" },
 }, {
     timestamps: {
      createdAt: 'created_at',

@@ -11,6 +11,7 @@ const roomSchema = new Schema({
     type: ObjectId,
     ref: 'User',
   },
+  description:{ type: String, default: '' },
   location: {
     type: {
       type: String,
