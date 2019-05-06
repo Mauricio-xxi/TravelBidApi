@@ -7,6 +7,7 @@ const {
 } = require('../helpers/middlewares');
 
 const Bid = require('../models/bid');
+const Offer = require('../models/offer');
 
 router.post('/', (req, res, next) => {
   const { description, value, offerID } = req.body;
@@ -57,11 +58,12 @@ router.delete('/:bidID', (req, res, next) => {
 
 
 router.put('/:bidID', isLoggedIn(), (req, res, next) => {
-  const { description, value } = req.body;
+  const { description, value, Status } = req.body;
   const bidID = req.params.bidID;
   Bid.findByIdAndUpdate(bidID, {
     description,
     value,
+    Status,
   }, { new: true })
     .then((bid) => {
       res.json({bid});
@@ -71,57 +73,32 @@ router.put('/:bidID', isLoggedIn(), (req, res, next) => {
     });
 });
 
-// router.get('/:id', (req, res, next) => {
-//   const offerID = req.params.id;
+// Edit BID
+// router.put('/:bidID', isLoggedIn(), async (req, res, next) => {
+//   const { description, value, Status, offerID } = req.body;
+//   const bidID = req.params.bidID;
+//   try {
 
-//   Offer.findById(offerID)
-//     .then((offer) => {
-//       res.status(200);
-//       res.json(offer);
-//     })
-//     .catch(next);
+//     await Bid.findByIdAndUpdate(bidID, {
+//       description,
+//       value,
+//       Status,
+//     }, { new: true });
 
-// });
+//     if (Status === 1) {
+//       await Offer.findByIdAndUpdate(offerID, { Status });
+//       const bids = await Bid.find({offerID, Status: 0});
+//       console.log(bids)
+//       bids.forEach((bid) => {
+//          Bid.findByIdAndUpdate(bid.id, { Status: 2 });
+//          console.log(bid.id);
+//       });
+//     }
+    
 
-
-// // GET SEARCH INPUT
-// router.get('/search/:city', (req, res, next) => {
-//   const { city } = req.params;
-//   Offer.find({ location: city })
-//     .then((offers) => {
-//       res.status(200);
-//       res.json(offers);
-//     })
-//     .catch(next);
-// });
-
-// router.put('/:id', isLoggedIn(), (req, res, next) => {
-//   const { from, until, budget } = req.body;
-//   const offerID = req.params.id;
-//   // conbid = req.session.currentUser._id;
-//   Offer.findByIdAndUpdate(offerID, {
-//     // userID,
-//     from,
-//     until,
-//     budget,
-//   }, { new: true })
-//     .then((offer) => {
-//       res.json({offer});
-//     })
-//     .catch((error) => {
-//       next(error);
-//     });
-// });
-
-// router.delete('/:id', isLoggedIn(), (req, res, next) => {
-//   const offerID = req.params.id;
-//   Offer.findByIdAndDelete(offerID)
-//     .then(() => {
-//       res.json({ message: `Offer with ${offerID} is removed successfully.` });
-//     })
-//     .catch((error) => {
-//       next(error);
-//     });
+//   } catch (error) {
+//     next(error);
+//   }
 // });
 
 module.exports = router;
