@@ -6,13 +6,17 @@ const { isLoggedIn } = require('../helpers/middlewares');
 const Room = require('../models/room');
 
 router.post('/', (req, res, next) => {
-  const { location, facilities  } = req.body;
-  const userID  = req.session.currentUser._id;
   console.log(req.body)
+  const { facilities, roomImage, coordinates, type } = req.body;
+  const userID  = req.session.currentUser._id;
   const newRoom = new Room({
     userID,
-    location,
+    location: {
+      type,
+      coordinates
+    },
     facilities,
+    roomImage
   });
 
   newRoom.save()
