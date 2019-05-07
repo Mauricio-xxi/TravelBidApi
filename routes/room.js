@@ -7,10 +7,11 @@ const Room = require('../models/room');
 
 router.post('/', (req, res, next) => {
   console.log(req.body)
-  const { facilities, roomImage, coordinates, type } = req.body;
+  const { facilities, roomImage, coordinates, type, description } = req.body;
   const userID  = req.session.currentUser._id;
   const newRoom = new Room({
     userID,
+    description,
     location: {
       type,
       coordinates
