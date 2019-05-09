@@ -7,7 +7,8 @@ const Room = require('../models/room');
 
 router.post('/', (req, res, next) => {
   console.log(req.body)
-  const { facilities, roomImage, coordinates, type, description } = req.body;
+  const { roomImage, coordinates, type, description, privateRoom, sharedRoom, 
+    entireProperty, tv, wifi, air, garage, termo, washer, pool, privateBathroom, wheelchair, smoke, pet } = req.body;
   const userID  = req.session.currentUser._id;
   const newRoom = new Room({
     userID,
@@ -16,7 +17,8 @@ router.post('/', (req, res, next) => {
       type,
       coordinates
     },
-    facilities,
+    facilities:{privateRoom, sharedRoom, 
+      entireProperty, tv, wifi, air, garage, termo, washer, pool, privateBathroom, wheelchair, smoke, pet},
     roomImage
   });
 
