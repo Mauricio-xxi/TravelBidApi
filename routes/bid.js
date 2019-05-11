@@ -8,13 +8,19 @@ const {
 
 const Bid = require('../models/bid');
 const Offer = require('../models/offer');
+const Room = require('../models/room');
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
   const { description, value, offerID } = req.body;
   const userID  = req.session.currentUser._id;
+  const room = await Room.find({userID});
+  console.log(`this is entire${room}`);
+  const roomID = room._id;
+  console.log(`this is the id: ${room.id}`);
   const newBid = new Bid({
     userID,
     offerID,
+    roomID,
     description,
     value ,
   });
