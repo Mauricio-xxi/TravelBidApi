@@ -41,6 +41,17 @@ router.get('/', (req, res, next) => {
     .catch(next);
 });
 
+router.get('/:id', (req, res, next) => {
+  console.log('we are getting the rooms');
+  const id  = req.params;
+  Room.findById(id)
+    .then((Room) => {
+      res.status(200);
+      res.json(Room);
+    })
+    .catch(next);
+});
+
 router.put('/:id', isLoggedIn(), (req, res, next) => {
   const { location, facilities:[...rest]  } = req.body;
   const RoomID = req.params.id;
