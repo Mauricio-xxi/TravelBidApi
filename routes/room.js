@@ -43,7 +43,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   console.log('we are getting the rooms');
-  const id  = req.params;
+  const { id } = req.params;
   Room.findById(id)
     .then((Room) => {
       res.status(200);
