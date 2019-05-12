@@ -43,7 +43,7 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   const offerID = req.params.id;
 
-  Offer.findById(offerID)
+  Offer.findById(offerID).populate('userID')
     .then((offer) => {
       res.status(200);
       res.json(offer);

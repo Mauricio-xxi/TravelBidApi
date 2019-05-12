@@ -35,7 +35,7 @@ router.post('/', async (req, res, next) => {
 
 router.get('/:offerID', (req, res, next) => {
   const { offerID } = req.params;
-  Bid.find({offerID})
+  Bid.find({offerID}).populate('userID')
       .then((bids) => {
         res.status(200);
         res.json(bids);
