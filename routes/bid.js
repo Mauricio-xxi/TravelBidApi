@@ -9,6 +9,8 @@ const {
 const Bid = require('../models/bid');
 const Offer = require('../models/offer');
 const Room = require('../models/room');
+const User = require('../models/user');
+
 
 router.post('/', async (req, res, next) => {
   const { description, value, offerID } = req.body;
@@ -41,14 +43,36 @@ router.get('/:offerID', (req, res, next) => {
       .catch(next);
 });
 
-router.get('/userBids/:userID', (req, res, next) => {
-  const { userID } = req.params;
-  Bid.find({userID})
-      .then((bids) => {
-        res.status(200);
-        res.json(bids);
-      })
-      .catch(next);
+// router.get('/userBids/:userID', async (req, res, next) => {
+//   const { userID } = req.params;
+//   const bids = await Bid.find({userID}).populate('offerID')
+//   const offerOwners = await bids.forEach( async (bid)=>{
+//     return await User.findById(bid.offerID.userID)
+//   })
+//       .then((bids, offerOwners) => {
+//         console.log(bids);
+//         res.status(200);
+//         res.json(bids);
+//       })
+//       .catch(next);
+// });
+
+router.get('/userBids/:userID', async (req, res, next) => {
+  try {
+    const { userID } = req.params;
+    const bids = await Bid.find({userID}).populate('offerID')
+    await bids.map( async (bid)=>{
+         await User.findById(bid.offerID.userID)
+         .then(async (owner) => {
+           const offerOwners = [];
+          await offerOwners.push(owner);
+          res.json({bids, offerOwners});
+        });
+      });
+      
+  } catch (error) {
+    next(error);
+  }
 });
 
 
