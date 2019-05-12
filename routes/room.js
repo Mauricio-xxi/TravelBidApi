@@ -33,7 +33,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/', (req, res, next) => {
   const id  = req.session.currentUser._id;
-  Room.find({ userID: id })
+  Room.findOne({ userID: id })
     .then((Room) => {
       res.status(200);
       res.json(Room);
