@@ -60,7 +60,7 @@ router.get('/:offerID', (req, res, next) => {
 router.get('/userBids/:userID', async (req, res, next) => {
   try {
     const { userID } = req.params;
-    const bids = await Bid.find({userID}).populate('offerID')
+    const bids = await Bid.find({userID}).populate('offerID').populate('userID');
     await bids.map( async (bid)=>{
          await User.findById(bid.offerID.userID)
          .then(async (owner) => {
