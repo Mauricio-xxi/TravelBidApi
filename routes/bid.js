@@ -15,8 +15,8 @@ const User = require('../models/user');
 router.post('/', async (req, res, next) => {
   const { description, value, offerID } = req.body;
   const userID  = req.session.currentUser._id;
-  const room = await Room.find({userID});
-  const roomID = room[0]._id;
+  const room = await Room.findOne({userID});
+  const roomID = room._id;
   const newBid = new Bid({
     userID,
     offerID,
