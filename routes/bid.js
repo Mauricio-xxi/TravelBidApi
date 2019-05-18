@@ -84,7 +84,6 @@ router.put('/:bidID', isLoggedIn(), (req, res, next) => {
 
 
 router.put('/:bidID/accept', isLoggedIn(), async (req, res, next) => {
-  console.log('we are in bid accet')
   try {
     const { Status, offerID } = req.body;
     const bidID = req.params.bidID;
@@ -96,29 +95,20 @@ router.put('/:bidID/accept', isLoggedIn(), async (req, res, next) => {
     });
 
     res.json({message: `Bid with ${bidID} was accepted successfully.`});
-  
   } catch (error) {
     next(error);
   }
 });
 
 router.put('/:bidID/decline', isLoggedIn(), async (req, res, next) => {
-  console.log('we are in bid decline')
   try {
     const { Status } = req.body;
     const bidID = req.params.bidID;
     await Bid.findByIdAndUpdate(bidID, { Status }, { new: true });
-
     res.json({message: `Bid with ${bidID} was declined successfully.`});
-  
   } catch (error) {
     next(error);
   }
 });
-
-
-
-
-
 
 module.exports = router;
