@@ -6,7 +6,6 @@ const { isLoggedIn } = require('../helpers/middlewares');
 const Room = require('../models/room');
 
 router.post('/', (req, res, next) => {
-  console.log(req.body)
   const { roomImage, coordinates, type, description, privateRoom, sharedRoom, 
     entireProperty, tv, wifi, air, garage, termo, washer, pool, privateBathroom, wheelchair, smoke, pet } = req.body;
   const userID  = req.session.currentUser._id;
@@ -52,13 +51,24 @@ router.get('/:id', (req, res, next) => {
     .catch(next);
 });
 
-router.put('/:id', isLoggedIn(), (req, res, next) => {
-  const { location, facilities:[...rest]  } = req.body;
-  const RoomID = req.params.id;
-  const userID = req.session.currentUser._id;
-  Room.findByIdAndUpdate(RoomID, {
-    location,
-    facilities
+router.put('/', isLoggedIn(), (req, res, next) => {
+  const { description, userID, roomImage, _id} = req.body.Data
+  console.log(_id)
+  console.log(req.body.Data)
+  const {coordinates} = req.body.Data.location
+  const {privateRoom, sharedRoom, entireProperty,tv, wifi, air, garage, termo, washer, pool, privateBathroom, wheelchair, smoke, pet} = req.body.Data.facilities
+  const type = "Point";
+  // const userID = req.session.currentUser._id;
+  Room.findByIdAndUpdate(_id, {
+    userID,
+    description,
+    location: {
+      type,
+      coordinates
+    },
+    facilities:{privateRoom, sharedRoom, 
+      entireProperty, tv, wifi, air, garage, termo, washer, pool, privateBathroom, wheelchair, smoke, pet},
+    roomImage
   }, { new: true })
     .then((Room) => {
       res.json({Room});
