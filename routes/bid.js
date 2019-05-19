@@ -32,6 +32,16 @@ router.post('/', async (req, res, next) => {
     })
     .catch(next);
 });
+router.post('/', (req, res, next) => {
+  const { id } = req.params;
+  Bid.findById(id)
+      .then((bids) => {
+        res.status(200);
+        res.json(bids);
+      })
+      .catch(next);
+});
+
 
 router.get('/:offerID', (req, res, next) => {
   const { offerID } = req.params;

@@ -15,6 +15,16 @@ router.get('/', (req, res, next) => {
     .catch(next);
 });
 
+router.post('/', (req, res, next) => {
+  const _id  = req.body.id;
+  User.findById( {_id} )
+    .then((Profile) => {
+      res.status(200);
+      res.json(Profile);
+    })
+    .catch(next);
+});
+
 router.put('/', isLoggedIn(), (req, res, next) => {
   console.log(req.body)
   const { email, age, gender, description, city, userImage } = req.body;
