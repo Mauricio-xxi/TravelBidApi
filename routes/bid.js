@@ -32,12 +32,14 @@ router.post('/', async (req, res, next) => {
     })
     .catch(next);
 });
-router.post('/', (req, res, next) => {
-  const { id } = req.params;
-  Bid.findById(id)
-      .then((bids) => {
+router.post('/a', (req, res, next) => {
+  const { id } = req.body;
+  console.log(id)
+  Bid.findById( id)
+      .then((bid) => {
+        console.log(bid)
         res.status(200);
-        res.json(bids);
+        res.json(bid);
       })
       .catch(next);
 });
