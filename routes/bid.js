@@ -15,8 +15,8 @@ const User = require('../models/user');
 router.post('/', async (req, res, next) => {
   const { description, value, offerID } = req.body;
   const userID  = req.session.currentUser._id;
-  const room = await Room.find({userID});
-  const roomID = room[0]._id;
+  const room = await Room.findOne({userID});
+  const roomID = room._id;
   const newBid = new Bid({
     userID,
     offerID,
@@ -60,7 +60,7 @@ router.get('/:offerID', (req, res, next) => {
 router.get('/userBids/:userID', async (req, res, next) => {
   try {
     const { userID } = req.params;
-    const bids = await Bid.find({userID}).populate('offerID')
+    const bids = await Bid.find({userID}).populate('offerID').populate('userID');
     await bids.map( async (bid)=>{
          await User.findById(bid.offerID.userID)
          .then(async (owner) => {

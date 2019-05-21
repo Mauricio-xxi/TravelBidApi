@@ -57,7 +57,7 @@ router.get('/:id', (req, res, next) => {
 router.get('/search/:city', (req, res, next) => {
   const { city } = req.params;
   console.log(city)
-  Offer.find({ location: city })
+  Offer.find({ location: city }).populate('userID')
     .then((offers) => {
       res.status(200);
       res.json(offers);
