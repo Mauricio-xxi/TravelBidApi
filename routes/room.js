@@ -52,14 +52,14 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.put('/', isLoggedIn(), (req, res, next) => {
-  const { description, userID, roomImage, _id} = req.body.Data
-  console.log(_id)
-  console.log(req.body.Data)
-  const {coordinates} = req.body.Data.location
-  const {privateRoom, sharedRoom, entireProperty,tv, wifi, air, garage, termo, washer, pool, privateBathroom, wheelchair, smoke, pet} = req.body.Data.facilities
+  const { description, roomImage, id, coordinates, privateRoom, sharedRoom, entireProperty,tv, wifi, air, garage, termo, washer, pool, privateBathroom, wheelchair, smoke, pet} = req.body.Data
+  // console.log(coordinates)
+  // console.log(req.body.Data)
+  // const {coordinates} = req.body.Data.location
+  // const {privateRoom, sharedRoom, entireProperty,tv, wifi, air, garage, termo, washer, pool, privateBathroom, wheelchair, smoke, pet} = req.body.Data.facilities
   const type = "Point";
-  // const userID = req.session.currentUser._id;
-  Room.findByIdAndUpdate(_id, {
+ const userID = req.session.currentUser._id;
+  Room.findByIdAndUpdate(id, {
     userID,
     description,
     location: {

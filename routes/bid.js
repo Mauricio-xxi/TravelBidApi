@@ -32,6 +32,18 @@ router.post('/', async (req, res, next) => {
     })
     .catch(next);
 });
+router.post('/a', (req, res, next) => {
+  const { id } = req.body;
+  console.log(id)
+  Bid.findById( id)
+      .then((bid) => {
+        console.log(bid)
+        res.status(200);
+        res.json(bid);
+      })
+      .catch(next);
+});
+
 
 router.get('/:offerID', (req, res, next) => {
   const { offerID } = req.params;
@@ -43,36 +55,15 @@ router.get('/:offerID', (req, res, next) => {
       .catch(next);
 });
 
-// router.get('/userBids/:userID', async (req, res, next) => {
-//   const { userID } = req.params;
-//   const bids = await Bid.find({userID}).populate('offerID')
-//   const offerOwners = await bids.forEach( async (bid)=>{
-//     return await User.findById(bid.offerID.userID)
-//   })
-//       .then((bids, offerOwners) => {
-//         console.log(bids);
-//         res.status(200);
-//         res.json(bids);
-//       })
-//       .catch(next);
-// });
-
-router.get('/userBids/:userID', async (req, res, next) => {
-  try {
+router.get('/userBids/:userID', (req, res, next) => {
     const { userID } = req.params;
-    const bids = await Bid.find({userID}).populate('offerID').populate('userID');
-    await bids.map( async (bid)=>{
-         await User.findById(bid.offerID.userID)
-         .then(async (owner) => {
-           const offerOwners = [];
-          await offerOwners.push(owner);
-          res.json({bids, offerOwners});
-        });
+    Bid.find({userID}).populate('offerID')
+      .then((bids) => {
+        res.json({bids});
+      })
+      .catch((error) => {
+        next(error);
       });
-      
-  } catch (error) {
-    next(error);
-  }
 });
 
 
@@ -105,7 +96,6 @@ router.put('/:bidID', isLoggedIn(), (req, res, next) => {
 
 
 router.put('/:bidID/accept', isLoggedIn(), async (req, res, next) => {
-  console.log('we are in bid accet')
   try {
     const { Status, offerID } = req.body;
     const bidID = req.params.bidID;
@@ -117,29 +107,20 @@ router.put('/:bidID/accept', isLoggedIn(), async (req, res, next) => {
     });
 
     res.json({message: `Bid with ${bidID} was accepted successfully.`});
-  
   } catch (error) {
     next(error);
   }
 });
 
 router.put('/:bidID/decline', isLoggedIn(), async (req, res, next) => {
-  console.log('we are in bid decline')
   try {
     const { Status } = req.body;
     const bidID = req.params.bidID;
     await Bid.findByIdAndUpdate(bidID, { Status }, { new: true });
-
     res.json({message: `Bid with ${bidID} was declined successfully.`});
-  
   } catch (error) {
     next(error);
   }
 });
-
-
-
-
-
 
 module.exports = router;
