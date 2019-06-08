@@ -9,6 +9,7 @@ const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
 require('dotenv').config();
 
+
 const auth = require('./routes/auth');
 const offer = require('./routes/offer');
 const bid = require('./routes/bid');
@@ -29,17 +30,6 @@ mongoose
   });
 
 const app = express();
-// const http = require('http');
-// const server = require('http').createServer()
-// const io = require('socket.io')(app)
-// const io = socketIO(server);
-
-// io.on('connection', socket => {
-//   console.log('Connected! nice!')
-//   socket.on('greet', greeting => {
-//     console.log(greeting);
-//   })
-// })
 
 app.use(
   cors({
