@@ -29,10 +29,29 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+// SOCKET CONFIG
+
+const io = require('socket.io')(server)
+
+io.on('connection', socket => {
+  console.log('Connected! nice!', socket.id)
+  socket.emit('greet',{ hello: 'world'} );
+  // socket.on('my other event', io.sockets.emit('data', 'this is the response'));
+})
+
+// io.on('connection', socket => {
+//   console.log('Connected! nice!', socket.id)
+
+//   socket.emit('greet', data => {
+//     console.log(data);
+//     // socket.emit('broadcast', 'hello friends!');
+//     // io.to(socket.io).emit('greet', 'welcome');
+//   })
+// })
+
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
