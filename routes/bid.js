@@ -34,10 +34,8 @@ router.post('/', async (req, res, next) => {
 });
 router.post('/a', (req, res, next) => {
   const { id } = req.body;
-  console.log(id)
   Bid.findById( id)
       .then((bid) => {
-        console.log(bid)
         res.status(200);
         res.json(bid);
       })
