@@ -9,11 +9,13 @@ const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
 require('dotenv').config();
 
+
 const auth = require('./routes/auth');
 const offer = require('./routes/offer');
 const bid = require('./routes/bid');
 const room = require('./routes/room');
 const profile = require('./routes/profile');
+const chat = require('./routes/chat');
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -70,6 +72,7 @@ app.use('/auth', auth);
 app.use('/offer', offer);
 app.use('/bid', bid);
 app.use('/room', room);
+app.use('/chat', chat);
 app.use('/profile', profile);
 
 // catch 404 and forward to error handler
